@@ -10,6 +10,7 @@
   "license": "ISC",
   "description": "SDK to be used in conjunction with the authentication-service api.",
   "devDependencies": {
+    "@types/express": "^5.0.1",
     "typescript": "^5.8.3"
   }
 }
