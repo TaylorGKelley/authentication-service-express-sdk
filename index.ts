@@ -2,11 +2,11 @@ import axios from 'axios';
 import { RequestHandler } from 'express';
 
 // Types
-export type AuthServiceConfig = {
+type AuthServiceConfig = {
   clientId: string;
   serviceBaseUrl: URL;
 };
-export type URL = `${'http://' | 'https://'}${string}`;
+type URL = `${'http://' | 'https://'}${string}`;
 
 // Functions
 export default function initialize(authConfig: AuthServiceConfig) {
