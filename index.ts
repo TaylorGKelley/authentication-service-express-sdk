@@ -1,20 +1,30 @@
+import axios from 'axios';
 import { RequestHandler } from 'express';
 
-export default class AuthService {
-  private _clientId: string;
-  private _baseUrl: string;
-
-  constructor(authConfig: AuthServiceConfig) {
-    this._clientId = authConfig.clientId;
-    this._baseUrl = authConfig.serviceBaseUrl;
-  }
-
-  public authorize: RequestHandler = (req, res, next) => {
-    console.log(this._clientId);
-  };
-}
-
+// Types
 export type AuthServiceConfig = {
   clientId: string;
-  serviceBaseUrl: `${'http://' | 'https://'}${string}`;
+  serviceBaseUrl: URL;
 };
+export type URL = `${'http://' | 'https://'}${string}`;
+
+// Functions
+export default function initialize(authConfig: AuthServiceConfig) {
+  const clientId = authConfig.clientId;
+  const baseUrl = authConfig.serviceBaseUrl;
+  const api = axios.create({ baseURL: baseUrl });
+
+  return {
+    authorize: (allowedPermissions: string[]) =>
+      ((req, res, next) => {
+        try {
+          // req handler logic
+          console.log(clientId, baseUrl);
+
+          next();
+        } catch (error) {
+          next(error);
+        }
+      }) as RequestHandler,
+  };
+}
