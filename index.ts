@@ -9,7 +9,7 @@ type AuthServiceConfig = {
 type URL = `${'http://' | 'https://'}${string}`;
 
 // Functions
-export default function initialize(authConfig: AuthServiceConfig) {
+function initialize(authConfig: AuthServiceConfig) {
   const clientId = authConfig.clientId;
   const baseUrl = authConfig.serviceBaseUrl;
   const api = axios.create({ baseURL: baseUrl });
@@ -28,3 +28,5 @@ export default function initialize(authConfig: AuthServiceConfig) {
       }) as RequestHandler,
   };
 }
+
+export default initialize;
