@@ -61,6 +61,7 @@ function authorize(allowedPermissions) {
       );
       if (!isAllowed && !allowedPermissions.includes("public")) {
         res.status(403).json({ message: "Forbidden" });
+        return;
       }
       next();
     } catch (error) {
