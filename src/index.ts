@@ -26,7 +26,18 @@ export function authorize(allowedPermissions: string[]): RequestHandler {
       return;
     }
 
-    req.user = response.data.user;
+    const { user, permissions } = response.data;
+    req.user = user;
+
+    // Check if user is in allowed roles
+    const isAllowed = allowedPermissions.some((allowedPermission) =>
+      permissions.includes(allowedPermission)
+    );
+
+    if (!isAllowed && !allowedPermissions.includes('public')) {
+      res.status(403).json({ message: 'Forbidden' });
+    }
+
     next();
   };
 }

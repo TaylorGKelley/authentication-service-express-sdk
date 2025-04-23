@@ -19,7 +19,14 @@ function authorize(allowedPermissions) {
       res.status(response.status).json(response.data);
       return;
     }
-    req.user = response.data.user;
+    const { user, permissions } = response.data;
+    req.user = user;
+    const isAllowed = allowedPermissions.some(
+      (allowedPermission) => permissions.includes(allowedPermission)
+    );
+    if (!isAllowed && !allowedPermissions.includes("public")) {
+      res.status(403).json({ message: "Forbidden" });
+    }
     next();
   };
 }
