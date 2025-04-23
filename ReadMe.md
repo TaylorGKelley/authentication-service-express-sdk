@@ -4,12 +4,14 @@ This is an SDK to be used in conjunction with the _authentication-service_ API f
 
 ## Setup
 
+To install run `npm i github:taylorGKelley/authentication-service-express-sdk`
+
 In your express api, add a config file for the sdk
 
 ```js
 //lib/authService.js
 
-import initialize from 'authentication-service-sdk';
+import initialize from 'authentication-service-express-sdk';
 
 const { authorize } = initialize({
   clientId: process.env.AUTHENTICATION_SERVICE_CLIENT_ID,
