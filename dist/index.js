@@ -1,7 +1,9 @@
 "use strict";
+var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __export = (target, all) => {
   for (var name in all)
@@ -15,6 +17,14 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // src/index.ts
@@ -23,9 +33,21 @@ __export(index_exports, {
   authorize: () => authorize
 });
 module.exports = __toCommonJS(index_exports);
+var import_axios = __toESM(require("axios"));
+var clientId = "8d46d402-37e4-4b9c-82ef-ccf44acbb43f";
 function authorize(allowedPermissions) {
-  return (req, res, next) => {
-    console.log(allowedPermissions);
+  return async (req, res, next) => {
+    var _a;
+    const token = (_a = req.headers.authorization) == null ? void 0 : _a.split(" ").at(1);
+    if (!token) {
+      res.status(401).json({ message: "Unauthorized" });
+    }
+    const response = await import_axios.default.get(`http://localhost:7001/api/v1/user-permissions/${clientId}`, {
+      headers: {
+        Authorization: req.headers.authorization
+      }
+    });
+    console.log(response.data);
     next();
   };
 }
