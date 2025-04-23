@@ -31,7 +31,7 @@ function authorize(allowedPermissions) {
       next();
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        res.status((_b = error.status) != null ? _b : 500).json({ message: error.message });
+        res.status((_b = error.status) != null ? _b : 500).json({ message: error.cause });
       } else {
         res.status(500).json({ message: error.message });
       }
