@@ -10,6 +10,10 @@ let hostedUrl: URL | null = null;
 function initialize({ clientId, baseUrl }: AuthenticationServiceSettings) {
   linkedServiceId = clientId;
   hostedUrl = baseUrl;
+
+  return {
+    authorize,
+  };
 }
 
 function authorize(allowedPermissions: string[]): RequestHandler {
@@ -61,4 +65,4 @@ function authorize(allowedPermissions: string[]): RequestHandler {
   };
 }
 
-export { initialize as default, authorize };
+export { initialize as default };

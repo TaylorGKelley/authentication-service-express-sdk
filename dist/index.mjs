@@ -5,6 +5,9 @@ var hostedUrl = null;
 function initialize({ clientId, baseUrl }) {
   linkedServiceId = clientId;
   hostedUrl = baseUrl;
+  return {
+    authorize
+  };
 }
 function authorize(allowedPermissions) {
   return async (req, res, next) => {
@@ -45,6 +48,5 @@ function authorize(allowedPermissions) {
   };
 }
 export {
-  authorize,
   initialize as default
 };

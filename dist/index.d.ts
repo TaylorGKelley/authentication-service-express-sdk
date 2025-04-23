@@ -6,7 +6,9 @@ type AuthenticationServiceSettings = {
     baseUrl: URL;
 };
 
-declare function initialize({ clientId, baseUrl }: AuthenticationServiceSettings): void;
+declare function initialize({ clientId, baseUrl }: AuthenticationServiceSettings): {
+    authorize: typeof authorize;
+};
 declare function authorize(allowedPermissions: string[]): RequestHandler;
 
-export { authorize, initialize as default };
+export { initialize as default };

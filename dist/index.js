@@ -30,7 +30,6 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // src/index.ts
 var index_exports = {};
 __export(index_exports, {
-  authorize: () => authorize,
   default: () => initialize
 });
 module.exports = __toCommonJS(index_exports);
@@ -40,6 +39,9 @@ var hostedUrl = null;
 function initialize({ clientId, baseUrl }) {
   linkedServiceId = clientId;
   hostedUrl = baseUrl;
+  return {
+    authorize
+  };
 }
 function authorize(allowedPermissions) {
   return async (req, res, next) => {
@@ -79,7 +81,3 @@ function authorize(allowedPermissions) {
     }
   };
 }
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
-  authorize
-});
