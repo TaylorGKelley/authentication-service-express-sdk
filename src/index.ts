@@ -42,7 +42,9 @@ export function authorize(allowedPermissions: string[]): RequestHandler {
       next();
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        res.status(error.status ?? 500).json({ message: error.cause });
+        res
+          .status(error.status ?? 500)
+          .json({ message: error.response?.data?.message });
       } else {
         res.status(500).json({ message: (error as Error).message });
       }
