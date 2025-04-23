@@ -1,4 +1,4 @@
-# Authentication Service SDK
+# Authentication Service Express SDK
 
 This is an SDK to be used in conjunction with the _authentication-service_ API for an external express based api
 
@@ -21,4 +21,4 @@ export { authorize };
 
 Then to use the middleware, simply `import {authorize} from './lib/authService.js'` and pass in whichever permissions are allowed for that route
 
--> Be sure you register the permissions in the auth api before adding them to your application, otherwise you will recieve a **409 Forbidden** response.
+-> Be sure you register the permissions in the auth api before adding them to your application, otherwise you will recieve a **403 Forbidden** response.
