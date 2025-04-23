@@ -41,13 +41,19 @@ function authorize(allowedPermissions) {
     const token = (_a = req.headers.authorization) == null ? void 0 : _a.split(" ").at(1);
     if (!token) {
       res.status(401).json({ message: "Unauthorized" });
+      return;
     }
-    const response = await import_axios.default.get(`http://localhost:7001/api/v1/user-permissions/${clientId}`, {
-      headers: {
-        Authorization: req.headers.authorization
+    const response = await import_axios.default.get(
+      `http://localhost:7001/api/v1/user-permissions/${clientId}`,
+      {
+        headers: req.headers
       }
-    });
-    console.log(response.data);
+    );
+    if (response.status !== 200) {
+      res.status(response.status).json(response.data);
+      return;
+    }
+    req.user = response.data.user;
     next();
   };
 }
