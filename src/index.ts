@@ -1,10 +1,18 @@
 import { RequestHandler } from 'express';
 import axios from 'axios';
 import UserPermissionResponse from './types/UserPermissionResponse';
+import type AuthenticationServiceSettings from './types/AuthenticationServiceSettings';
+import { URL } from 'node:url';
 
-const clientId = '8d46d402-37e4-4b9c-82ef-ccf44acbb43f';
+let linkedServiceId: string | null = null;
+let hostedUrl: URL | null = null;
 
-export function authorize(allowedPermissions: string[]): RequestHandler {
+function initialize({ clientId, baseUrl }: AuthenticationServiceSettings) {
+  linkedServiceId = clientId;
+  hostedUrl = baseUrl;
+}
+
+function authorize(allowedPermissions: string[]): RequestHandler {
   return async (req, res, next) => {
     try {
       const token = req.headers.authorization?.split(' ').at(1);
@@ -16,7 +24,7 @@ export function authorize(allowedPermissions: string[]): RequestHandler {
 
       // axios request
       const response = await axios.get<UserPermissionResponse>(
-        `http://localhost:7001/api/v1/user-permissions/${clientId}`,
+        `${hostedUrl}/api/v1/user-permissions/${linkedServiceId}`,
         {
           headers: req.headers,
         }
@@ -52,3 +60,5 @@ export function authorize(allowedPermissions: string[]): RequestHandler {
     }
   };
 }
+
+export { initialize as default, authorize };

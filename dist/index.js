@@ -30,11 +30,17 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // src/index.ts
 var index_exports = {};
 __export(index_exports, {
-  authorize: () => authorize
+  authorize: () => authorize,
+  default: () => initialize
 });
 module.exports = __toCommonJS(index_exports);
 var import_axios = __toESM(require("axios"));
-var clientId = "8d46d402-37e4-4b9c-82ef-ccf44acbb43f";
+var linkedServiceId = null;
+var hostedUrl = null;
+function initialize({ clientId, baseUrl }) {
+  linkedServiceId = clientId;
+  hostedUrl = baseUrl;
+}
 function authorize(allowedPermissions) {
   return async (req, res, next) => {
     var _a, _b, _c, _d;
@@ -45,7 +51,7 @@ function authorize(allowedPermissions) {
         return;
       }
       const response = await import_axios.default.get(
-        `http://localhost:7001/api/v1/user-permissions/${clientId}`,
+        `${hostedUrl}/api/v1/user-permissions/${linkedServiceId}`,
         {
           headers: req.headers
         }
