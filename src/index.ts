@@ -22,8 +22,7 @@ function authorize(allowedPermissions: string[]): RequestHandler {
 			const token = req.headers.authorization?.split(' ').at(1);
 
 			if (!token) {
-				res.status(401).json({ message: 'Unauthorized' });
-				return;
+				throw new Error('Unauthorized: No token provided');
 			}
 
 			// axios request
@@ -35,8 +34,7 @@ function authorize(allowedPermissions: string[]): RequestHandler {
 			);
 
 			if (response.status !== 200) {
-				res.status(response.status).json(response.data);
-				return;
+				throw new Error(response.data.message);
 			}
 
 			const { user, permissions } = response.data;
@@ -48,8 +46,7 @@ function authorize(allowedPermissions: string[]): RequestHandler {
 			);
 
 			if (!isAllowed && !allowedPermissions.includes('public')) {
-				res.status(403).json({ message: 'Forbidden' });
-				return;
+				throw new Error('Forbidden');
 			}
 
 			next();

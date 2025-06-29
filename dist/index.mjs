@@ -15,8 +15,7 @@ function authorize(allowedPermissions) {
     try {
       const token = (_a = req.headers.authorization) == null ? void 0 : _a.split(" ").at(1);
       if (!token) {
-        res.status(401).json({ message: "Unauthorized" });
-        return;
+        throw new Error("Unauthorized: No token provided");
       }
       const response = await axios.get(
         `${hostedUrl}/api/v1/user-permissions/${linkedServiceId}`,
@@ -25,8 +24,7 @@ function authorize(allowedPermissions) {
         }
       );
       if (response.status !== 200) {
-        res.status(response.status).json(response.data);
-        return;
+        throw new Error(response.data.message);
       }
       const { user, permissions } = response.data;
       req.user = user;
@@ -34,8 +32,7 @@ function authorize(allowedPermissions) {
         (allowedPermission) => permissions.includes(allowedPermission)
       );
       if (!isAllowed && !allowedPermissions.includes("public")) {
-        res.status(403).json({ message: "Forbidden" });
-        return;
+        throw new Error("Forbidden");
       }
       next();
     } catch (error) {
