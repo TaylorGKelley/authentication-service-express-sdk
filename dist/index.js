@@ -45,7 +45,7 @@ function initialize({ clientId, baseUrl }) {
 }
 function authorize(allowedPermissions) {
   return async (req, res, next) => {
-    var _a, _b, _c, _d;
+    var _a;
     try {
       const token = (_a = req.headers.authorization) == null ? void 0 : _a.split(" ").at(1);
       if (!token) {
@@ -73,11 +73,7 @@ function authorize(allowedPermissions) {
       }
       next();
     } catch (error) {
-      if (import_axios.default.isAxiosError(error)) {
-        res.status((_b = error.status) != null ? _b : 500).json({ message: (_d = (_c = error.response) == null ? void 0 : _c.data) == null ? void 0 : _d.message });
-      } else {
-        res.status(500).json({ message: error.message });
-      }
+      next(error);
     }
   };
 }
