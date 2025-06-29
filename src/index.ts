@@ -27,7 +27,7 @@ function authorize(allowedPermissions: string[]): RequestHandler {
 
 			// axios request
 			const response = await axios.get<UserPermissionResponse>(
-				`${hostedUrl}/api/v1/user-permissions/${linkedServiceId}`,
+				`${hostedUrl}/user-permissions/${linkedServiceId}`,
 				{
 					headers: req.headers,
 				}

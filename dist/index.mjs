@@ -18,7 +18,7 @@ function authorize(allowedPermissions) {
         throw new Error("Unauthorized: No token provided");
       }
       const response = await axios.get(
-        `${hostedUrl}/api/v1/user-permissions/${linkedServiceId}`,
+        `${hostedUrl}/user-permissions/${linkedServiceId}`,
         {
           headers: req.headers
         }
